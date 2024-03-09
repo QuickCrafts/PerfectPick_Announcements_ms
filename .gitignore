@@ -1,0 +1,8 @@
+#Ignore the js files
+dist/
+#Ignore node_modules
+node_modules/
+#env
+.env
+#database
+db/
