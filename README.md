@@ -88,7 +88,7 @@ Delete ad.
 
 | Response Status | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `201` | `success` | "Ad deleted"|
+| `204` | `success` | No content|
 | `400` | `error` | "Id not provided" |
 | `404` | `error` | "Ad not found" |
 | `500` | `error` | Any other error message|
