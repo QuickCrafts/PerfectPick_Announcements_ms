@@ -6,3 +6,6 @@ node_modules/
 .env
 #database
 db/
+
+#Ignore vscode settings
+.vscode/

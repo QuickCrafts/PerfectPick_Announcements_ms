@@ -315,20 +315,176 @@ interface New_Analysis{
 
 ```typescript
 
-//@todo
+interface Count_Likes {
+    lk_total: number // Total of users with type "Like"
+    dlk_total: number // Total of users with type "dislike"
+    blk_total: number // Total of users with type "blank"
+    avr_rating: number // Average rating of likes
+}
+
+interface Gender_Analysis {
+    f: Count_Likes // Totals filtered by "female" gender
+    m: Count_Likes // Totals filtered by "male" gender
+    o: Count_Likes // Totals filtered by "other" gender
+    p: Count_Likes // Totals filtered by "prefer not to disclose" gender
+}
+
+interface Nationality_Analysis {
+    country_name: string
+    code_2: string //ISO 3166-1 alpha-2
+    code_3: string //ISO 3166-1 alpha-3
+    like_info: Count_Likes
+}
+
+interface Age_Range {
+    lower_age: number
+    upper_age: number
+    total: number // Total users inside the range
+    like_info: Count_Likes
+}
 
 // Response interface
 interface Analysis {
     id: number // media id
     gender: Gender_Analysis
-    nationality: Nationality_Analysis
-    age: Age_Nationality
+    nationality: Record<number, Nationality_Analysis>
+    age: Record<string, Age_Range> // Example: {"0 - 5": {}, "6-11": {}, ...}
 }
 ```
 
 ### Company
 
+#### Create company
+
+Create new company. Returns company id generated.
+
+```http
+  POST /companies
+```
+
+```typescript
+// Body interface
+interface Create_company{
+  name: string
+  email: string
+}
+```
+
+| Response Status | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `201` | `success` | Returns company id|
+| `400` | `error` | "Guard failed" |
+| `500` | `error` | Any other error message|
+
+```typescript
+// Response interface
+interface Create_company_Response{
+  id: number // company id
+}
+```
+
+#### Update company
+
+Update company.
+
+```http
+  PUT /companies/${id}
+```
+
+```typescript
+// Body interface
+interface Update_company{
+  name?: string
+  email?: string
+}
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `id` | `int` | **Required**. company id |
+
+| Response Status | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `201` | `success` | "Company updated"|
+| `400` | `error` | "Guard failed" |
+| `400` | `error` | "Id not provided" |
+| `404` | `error` | "Company not found" |
+| `500` | `error` | Any other error message|
+
 ### Payment
+
+#### Generate Payment
+
+Create a new bill related with an specific ad. It's created with the status `CREATED` and will be ready for a payment. Returns payment id generated.
+
+```http
+  POST /payment
+```
+
+```typescript
+// Body interface
+interface Create_Bill{
+  id_ad: int
+  amount: int
+}
+```
+
+| Response Status | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `201` | `success` | Returns payment id|
+| `400` | `error` | "Guard failed" |
+| `500` | `error` | Any other error message|
+
+```typescript
+// Response interface
+interface Create_Bill_Response{
+  id: number // payment id
+}
+```
+
+#### Cancel Payment
+
+Cancel the payment process related with an specific ad. It's change the status to `CANCELED`.
+
+```http
+  PUT /payment/cancel/${id}
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `id` | `int` | **Required**. payment id |
+
+| Response Status | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `201` | `success` | "Payment canceled"|
+| `400` | `error` | "Id not provided" |
+| `404` | `error` | "Payment not found" |
+| `500` | `error` | Any other error message|
+
+#### Pay Bill
+
+Pay the bill related with an specific ad. The payment will be processed with Mercado Pago. It's change the status to `PAID` if payment was successful and `CANCEL` if payment was wrong.
+
+```http
+  PUT /payment/pay/${id}
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `id` | `int` | **Required**. payment id |
+
+| Response Status | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `201` | `success` | "Bill Paid"|
+| `400` | `error` | "Payment wrong. Bill canceled." |
+| `400` | `error` | "Bill is canceled and cannot be processed." |
+| `400` | `error` | "Id not provided" |
+| `404` | `error` | "Bill not found" |
+| `500` | `error` | Any other error message|
+
+#### Important!
+
+ If a bill is canceled and wants to try to pay ad again, then a new bill has to be generated.
 
 ---
 <br />
