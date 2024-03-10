@@ -2,23 +2,31 @@ import { Request, Response } from 'express'
 import adsFacade from '../facades/ads.facade'
 
 class AdsController {
-  public getAds (_req: Request, res: Response): void {
-    return adsFacade.getAds(res)
+  public async getAds (_req: Request, res: Response): Promise<void> {
+    return await adsFacade.getAds(res)
   }
 
-  public getById (_req: Request, res: Response): void {
-    return adsFacade.getById(res)
+  public async getAdsActive (_req: Request, res: Response): Promise<void> {
+    return await adsFacade.getAdsActive(res)
   }
 
-  public createAd (_req: Request, res: Response): void {
-    return adsFacade.createAd(res)
+  public async getAdsByCompany (req: Request, res: Response): Promise<void> {
+    return await adsFacade.getAdsByCompany(req, res)
   }
 
-  public updateAd (_req: Request, res: Response): void {
-    return adsFacade.updateAd(res)
+  public async getById (req: Request, res: Response): Promise<void> {
+    return await adsFacade.getById(req, res)
   }
 
-  public deleteAd (_req: Request, res: Response): void {
-    return adsFacade.deleteAd(res)
+  public async createAd (req: Request, res: Response): Promise<void> {
+    return await adsFacade.createAd(req, res)
+  }
+
+  public async updateAd (req: Request, res: Response): Promise<void> {
+    return await adsFacade.updateAd(req, res)
+  }
+
+  public async deleteAd (req: Request, res: Response): Promise<void> {
+    return await adsFacade.deleteAd(req, res)
   }
 } export default new AdsController()

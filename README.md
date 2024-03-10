@@ -25,7 +25,7 @@ interface Create_Ad{
   start_date: string //timestamp of start date to publish ad
   end_date: string //timestamp of end date to publish ad
   description: string
-  id_company: string
+  id_company: int
 }
 ```
 

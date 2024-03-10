@@ -1,6 +1,7 @@
 import express, { Application } from 'express'
 import adsRoutes from './routes/ads.routes'
 import companiesRouter from './routes/companies.routes'
+import paymentsRouter from './routes/payments.routes'
 import morgan from 'morgan'
 
 export class App {
@@ -19,6 +20,7 @@ export class App {
   private initRoutes (): void {
     this.app.use('/ads', adsRoutes)
     this.app.use('/companies', companiesRouter)
+    this.app.use('/payments', paymentsRouter)
   }
 
   public getApp (): Application {
