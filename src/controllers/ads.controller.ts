@@ -31,7 +31,7 @@ class AdsController {
     return await adsFacade.getByUserActiveAds(req, res)
   }
 
-  public async getAdsAnalysis (_req: Request, res: Response): Promise<void> {
-    return await adsFacade.getAdsAnalysis(res)
+  public async getAdsAnalysis (req: Request, res: Response): Promise<void> {
+    return await adsFacade.getAdsAnalysis(req, res)
   }
 } export default new AdsController()

@@ -2,12 +2,27 @@
 import { Request, Response } from 'express'
 import { pool } from '../dataBase'
 import { OkPacket } from 'mysql2'
+import { IPayment } from '../dtos/Ipayment.dto'
+import { IData } from '../dtos/IData.dto'
 
 class PaymentsFacade {
   public async getPayments (res: Response): Promise<void> {
-    const [rows] = await pool.query('SELECT * FROM payments')
-    console.log(rows)
-    res.json(rows)
+    try {
+      try {
+        const [rows] = await pool.query('SELECT * FROM payments')
+        res.status(201).json(rows)
+      } catch (e) {
+        console.log(e)
+        res.status(400).json({
+          message: 'Guard failed'
+        })
+      }
+    } catch (e) {
+      console.log(e)
+      res.status(500).json({
+        message: 'Error'
+      })
+    }
   }
 
   public async getById (req: Request, res: Response): Promise<void> {
@@ -18,14 +33,27 @@ class PaymentsFacade {
   }
 
   public async createPayment (req: Request, res: Response): Promise<void> {
-    const { id_ad, amount } = req.body
-    const createdTime = new Date()
-    const statusPayment = 'CREATED'
-    const [rows] = await pool.query('INSERT INTO payments (id_ad, amount_payment,created_time,status_payment) VALUES (?, ?,?, ?)', [id_ad, amount, createdTime, statusPayment])
-    const response = {
-      id: (rows as OkPacket).insertId
+    try {
+      const { id_ad, amount } = req.body
+      const createdTime = new Date()
+      const statusPayment = 'CREATED'
+      try {
+        const [rows] = await pool.query('INSERT INTO payments (id_ad, amount_payment,created_time,status_payment) VALUES (?, ?,?, ?)', [id_ad, amount, createdTime, statusPayment])
+        const response = {
+          id: (rows as OkPacket).insertId
+        }
+        res.status(201).json(response)
+      } catch (e) {
+        res.status(400).json({
+          message: 'Guard failed'
+        })
+      }
+    } catch (e) {
+      console.log(e)
+      res.status(500).json({
+        message: 'Error'
+      })
     }
-    res.json(response)
   }
 
   public async updatePayment (req: Request, res: Response): Promise<void> {
@@ -44,18 +72,56 @@ class PaymentsFacade {
 
   // Esto no tiene sentido
   public async cancelPayment (req: Request, res: Response): Promise<void> {
-    const idPayment = req.params.id
-    await pool.query('UPDATE payments SET status_payment = "CANCELED" WHERE id_payment = ?', [idPayment])
-    const response = {
-      idPayment
+    try {
+      const idPayment = req.params.id
+      if (idPayment === undefined || idPayment === null || isNaN(Number(idPayment))) {
+        res.status(400).json({ message: 'Id not provided' })
+        return
+      }
+      const [rows] = await pool.query('UPDATE payments SET status_payment = "CANCELED" WHERE id_payment = ?', [idPayment])
+      if ((rows as OkPacket).affectedRows === 0) {
+        res.status(404).json({
+          message: 'Payment not found'
+        })
+        return
+      }
+      const response = {
+        idPayment,
+        message: 'Payment canceled'
+      }
+      res.status(201).json(response)
+    } catch (e) {
+      res.status(500).json({
+        message: 'Error'
+      })
     }
-    res.json(response)
   }
 
   public async payBill (req: Request, res: Response): Promise<void> {
     const idPayment = req.params.id as unknown as number
-    await this.createData(idPayment, res)
+    const [rows] = await pool.query('SELECT * FROM payments WHERE id_payment = ?', [idPayment])
+    if ((rows as IPayment[]).length === 0) {
+      res.status(404).json({
+        message: 'Payment not found'
+      })
+      return
+    }
+    if ((rows as IPayment[])[0].status_payment === 'CANCELED') {
+      res.status(400).json({
+        message: 'Payment canceled'
+      })
+      return
+    }
+
+    if ((rows as IPayment[])[0].status_payment === 'PAID') {
+      res.status(400).json({
+        message: 'Payment already paid'
+      })
+      return
+    }
+    const data = await this.createData(idPayment)
     // Hacer pago
+    await pool.query('UPDATE mercadopago_data SET id_payment = ?, status_payment = "PAID" where id_reference =  ?', [idPayment, data.id_reference])
     await pool.query('UPDATE payments SET status_payment = "PAID" WHERE id_payment = ?', [idPayment])
     const response = {
       idPayment
@@ -63,15 +129,15 @@ class PaymentsFacade {
     res.json(response)
   }
 
-  public async createData (idPayment: number, res: Response): Promise<Response> {
-    const statusPayment = 'CREATED'
-    const [rows] = await pool.query('INSERT INTO mercadopago_data (id_payment, status_payment) VALUES (?, ?)', [idPayment, statusPayment])
+  public async createData (id_payment: number): Promise<IData> {
+    const status_payment = 'CREATED'
+    const [rows] = await pool.query('INSERT INTO mercadopago_data (id_payment, status_payment) VALUES (?, ?)', [id_payment, status_payment])
     console.log(rows)
     const response = {
       id_reference: (rows as OkPacket).insertId,
-      idPayment,
-      statusPayment
+      id_payment,
+      status_payment
     }
-    return res.json(response)
+    return response as IData
   }
 } export default new PaymentsFacade()

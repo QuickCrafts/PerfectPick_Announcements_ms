@@ -17,33 +17,89 @@ class CompaniesFacade {
   }
 
   public async createCompany (req: Request, res: Response): Promise<void> {
-    const { name, email } = req.body
-    const [rows] = await pool.query('INSERT INTO companies (name_company, email_company) VALUES (?, ?)', [name, email])
-    const response = {
-      id: (rows as OkPacket).insertId
+    try {
+      const { name, email } = req.body
+      try {
+        const [rows] = await pool.query('INSERT INTO companies (name_company, email_company) VALUES (?, ?)', [name, email])
+        const response = {
+          id: (rows as OkPacket).insertId
+        }
+        res.status(201).json(response)
+      } catch (e) {
+        res.status(400).json({
+          message: 'Guard failed'
+        })
+      }
+    } catch (e) {
+      console.log(e)
+      res.status(500).json({
+        message: 'Error'
+      })
     }
-    res.json(response)
   }
 
   public async updateCompany (req: Request, res: Response): Promise<void> {
-    const idCompany = req.params.id
-    const { name, email } = req.body
-    await pool.query('UPDATE companies SET name_company = ?, email_company = ? WHERE id_company = ?', [name, email, idCompany])
-    const response = {
-      id: idCompany,
-      name,
-      email
+    try {
+      const idCompany = req.params.id
+      if (idCompany === undefined || idCompany === null || isNaN(Number(idCompany))) {
+        res.status(400).json({ message: 'Id not provided' })
+        return
+      }
+      const { name, email } = req.body
+      try {
+        const [rows] = await pool.query('UPDATE companies SET name_company = ?, email_company = ? WHERE id_company = ?', [name, email, idCompany])
+        if ((rows as OkPacket).affectedRows === 0) {
+          res.status(404).json({
+            message: 'Company not found'
+          })
+          return
+        }
+        const response = {
+          id: idCompany,
+          message: 'Company updated'
+        }
+        res.status(201).json(response)
+      } catch (e) {
+        res.status(400).json({
+          message: 'Guard failed'
+        })
+      }
+    } catch (e) {
+      res.status(500).json({
+        message: 'Error'
+      })
     }
-    res.json(response)
   }
 
   public async deleteCompany (req: Request, res: Response): Promise<void> {
-    const idCompany = req.params.id
-    await pool.query('DELETE FROM companies WHERE id_company = ?', [idCompany])
-    const response = {
-      id: idCompany,
-      message: 'Company deleted'
+    try {
+      const idCompany = req.params.id
+      if (idCompany === undefined || idCompany === null || isNaN(Number(idCompany))) {
+        res.status(400).json({ message: 'Id not provided' })
+        return
+      }
+      try {
+        const [rows] = await pool.query('DELETE FROM companies WHERE id_company = ?', [idCompany])
+        if ((rows as OkPacket).affectedRows === 0) {
+          res.status(404).json({
+            message: 'Company not found'
+          })
+          return
+        }
+        const response = {
+          id: idCompany,
+          message: 'Company deleted'
+        }
+        res.status(201).json(response)
+      } catch (e) {
+        res.status(400).json({
+          message: 'Guard failed'
+        })
+      }
+    } catch (e) {
+      res.status(500).json({
+        message: 'Error'
+      })
     }
-    res.json(response)
   }
 } export default new CompaniesFacade()

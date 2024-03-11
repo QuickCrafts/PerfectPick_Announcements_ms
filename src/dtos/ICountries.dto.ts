@@ -4,3 +4,7 @@ export interface ICountry {
   code_2: string
   code_3: string
 }
+
+export interface ICountryCount extends ICountry {
+  count: number
+}
