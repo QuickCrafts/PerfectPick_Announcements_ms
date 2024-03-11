@@ -17,24 +17,22 @@ class CompaniesFacade {
   }
 
   public async createCompany (req: Request, res: Response): Promise<void> {
-    const { nameCompany, emailCompany } = req.body
-    const [rows] = await pool.query('INSERT INTO companies (name_company, email_company) VALUES (?, ?)', [nameCompany, emailCompany])
+    const { name, email } = req.body
+    const [rows] = await pool.query('INSERT INTO companies (name_company, email_company) VALUES (?, ?)', [name, email])
     const response = {
-      id: (rows as OkPacket).insertId,
-      nameCompany,
-      emailCompany
+      id: (rows as OkPacket).insertId
     }
     res.json(response)
   }
 
   public async updateCompany (req: Request, res: Response): Promise<void> {
     const idCompany = req.params.id
-    const { nameCompany, emailCompany } = req.body
-    await pool.query('UPDATE companies SET name_company = ?, email_company = ? WHERE id_company = ?', [nameCompany, emailCompany, idCompany])
+    const { name, email } = req.body
+    await pool.query('UPDATE companies SET name_company = ?, email_company = ? WHERE id_company = ?', [name, email, idCompany])
     const response = {
       id: idCompany,
-      nameCompany,
-      emailCompany
+      name,
+      email
     }
     res.json(response)
   }

@@ -1,17 +1,10 @@
+/* eslint-disable @typescript-eslint/return-await */
 import { Request, Response } from 'express'
 import adsFacade from '../facades/ads.facade'
 
 class AdsController {
-  public async getAds (_req: Request, res: Response): Promise<void> {
-    return await adsFacade.getAds(res)
-  }
-
-  public async getAdsActive (_req: Request, res: Response): Promise<void> {
-    return await adsFacade.getAdsActive(res)
-  }
-
-  public async getAdsByCompany (req: Request, res: Response): Promise<void> {
-    return await adsFacade.getAdsByCompany(req, res)
+  public async getAds (req: Request, res: Response): Promise<void> {
+    return await adsFacade.getAds(req, res)
   }
 
   public async getById (req: Request, res: Response): Promise<void> {
@@ -28,5 +21,17 @@ class AdsController {
 
   public async deleteAd (req: Request, res: Response): Promise<void> {
     return await adsFacade.deleteAd(req, res)
+  }
+
+  public async publishAd (req: Request, res: Response): Promise<void> {
+    return await adsFacade.publishAd(req, res)
+  }
+
+  public async getByUserActiveAds (req: Request, res: Response): Promise<void> {
+    return await adsFacade.getByUserActiveAds(req, res)
+  }
+
+  public async getAdsAnalysis (_req: Request, res: Response): Promise<void> {
+    return await adsFacade.getAdsAnalysis(res)
   }
 } export default new AdsController()

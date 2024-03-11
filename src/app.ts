@@ -2,6 +2,7 @@ import express, { Application } from 'express'
 import adsRoutes from './routes/ads.routes'
 import companiesRouter from './routes/companies.routes'
 import paymentsRouter from './routes/payments.routes'
+import dataRouter from './routes/mercadoPagoData.routes'
 import morgan from 'morgan'
 
 export class App {
@@ -21,6 +22,7 @@ export class App {
     this.app.use('/ads', adsRoutes)
     this.app.use('/companies', companiesRouter)
     this.app.use('/payments', paymentsRouter)
+    this.app.use('/data', dataRouter)
   }
 
   public getApp (): Application {

@@ -17,4 +17,12 @@ class PaymentsController {
   public async updatePayment (req: Request, res: Response): Promise<void> {
     return await paymentsFacade.updatePayment(req, res)
   }
+
+  public async cancelPayment (req: Request, res: Response): Promise<void> {
+    return await paymentsFacade.cancelPayment(req, res)
+  }
+
+  public async payBill (req: Request, res: Response): Promise<void> {
+    return await paymentsFacade.payBill(req, res)
+  }
 } export default new PaymentsController()
