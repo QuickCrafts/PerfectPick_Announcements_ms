@@ -177,6 +177,8 @@ class AdsFacade {
       for (const payment of payments) {
         if (payment.status_payment === 'PAID') {
           const date = new Date()
+          console.log(ads[0].start_date_ad)
+          console.log(ads[0].end_date_ad)
           if (date >= new Date(ads[0].start_date_ad) && date <= new Date(ads[0].end_date_ad)) {
             await pool.query('UPDATE ads SET published_ad = 1 WHERE id_ad = ?', [idAd])
             res.status(200).json({
