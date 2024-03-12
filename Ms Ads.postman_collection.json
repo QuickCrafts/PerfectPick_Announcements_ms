@@ -1,0 +1,823 @@
+{
+	"info": {
+		"_postman_id": "bb776075-6e83-44d5-a90e-2392846f38aa",
+		"name": "Ms Ads",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25606268"
+	},
+	"item": [
+		{
+			"name": "Ads routes",
+			"item": [
+				{
+					"name": "Create ads",
+					"item": [
+						{
+							"name": "Create Ads",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// Body interface\r\n{\r\n  \"name\": \"Opti ads\",\r\n  \"ad\": \"urlOpti\", // string Base64 Ad image coded\r\n  \"start_date\": \"2023-01-11\", //timestamp of start date to publish ad\r\n  \"end_date\": \"2024-02-11\", //timestamp of end date to publish ad\r\n  \"description\": \"DESCRIPCION DE AD\",\r\n  \"id_company\": 6\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:4000/ads/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "4000",
+									"path": [
+										"ads",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Update ads",
+					"item": [
+						{
+							"name": "Update Ads",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// Body interface\r\n{\r\n  \"name\": \"Opti ads\",\r\n  \"ad\": \"urlOpti\", // string Base64 Ad image coded\r\n  \"start_date\": \"2023-01-11\", //timestamp of start date to publish ad\r\n  \"end_date\": \"2025-02-11\", //timestamp of end date to publish ad\r\n  \"description\": \"DESCRIPCION DE AD Opti\",\r\n  \"id_company\": 6\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:4000/ads/8",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "4000",
+									"path": [
+										"ads",
+										"8"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete ads",
+					"item": [
+						{
+							"name": "Delete ads",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:4000/ads/5",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "4000",
+									"path": [
+										"ads",
+										"5"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get ads",
+					"item": [
+						{
+							"name": "Get by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:4000/ads/8",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "4000",
+									"path": [
+										"ads",
+										"8"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all ads",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n     \"exact_date\" : true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:4000/ads/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "4000",
+									"path": [
+										"ads",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get ads with the same start date",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"exact_date\" : true,\r\n    \"start_date\": \"2023-01-11\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:4000/ads/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "4000",
+									"path": [
+										"ads",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get ads with the same end date",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"exact_date\" : true,\r\n    \"end_date\": \"2024-02-11\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:4000/ads/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "4000",
+									"path": [
+										"ads",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get ads avant end date",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"end_date\": \"2024-05-11\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:4000/ads/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "4000",
+									"path": [
+										"ads",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get ads apres end date",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"start_date\": \"2023-05-11\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:4000/ads/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "4000",
+									"path": [
+										"ads",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get ads between two dates",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"start_date\": \"2023-05-11\",\r\n    \"end_date\": \"2025-05-11\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:4000/ads/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "4000",
+									"path": [
+										"ads",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get by company",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id_company\" : \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:4000/ads/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "4000",
+									"path": [
+										"ads",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Gets by published",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"published_ad\" : true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:4000/ads/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "4000",
+									"path": [
+										"ads",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Publish ads",
+					"item": [
+						{
+							"name": "Publish ads",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:4000/ads/publish/8",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "4000",
+									"path": [
+										"ads",
+										"publish",
+										"8"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get user ads",
+					"item": [
+						{
+							"name": "Get user ads",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:4000/ads/active/3",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "4000",
+									"path": [
+										"ads",
+										"active",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Analysis",
+					"item": [
+						{
+							"name": "Create analysis",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"likes\":[\r\n        {\r\n            \"id\": 1,\r\n            \"user_id\": 1,\r\n            \"type\": \"MOV\",\r\n            \"rating\": 3.5, // given by the user searched\r\n            \"like_type\": \"LK\", // Liked | Disliked | Blank (no info yet)\r\n            \"wishlist\": true // Inside user wishlist? Yes or No\r\n        },\r\n        {\r\n            \"id\": 1,\r\n            \"user_id\": 2,\r\n            \"type\": \"MOV\",\r\n            \"rating\": 4, // given by the user searched\r\n            \"like_type\": \"LK\", // Liked | Disliked | Blank (no info yet)\r\n            \"wishlist\": true // Inside user wishlist? Yes or No\r\n        },\r\n        {\r\n            \"id\": 1,\r\n            \"user_id\": 3,\r\n            \"type\": \"MOV\",\r\n            \"rating\": 5, // given by the user searched\r\n            \"like_type\": \"LK\", // Liked | Disliked | Blank (no info yet)\r\n            \"wishlist\": true // Inside user wishlist? Yes or No\r\n        },\r\n        {\r\n            \"id\": 1,\r\n            \"user_id\": 4,\r\n            \"type\": \"MOV\",\r\n            \"rating\": 2, // given by the user searched\r\n            \"like_type\": \"LK\", // Liked | Disliked | Blank (no info yet)\r\n            \"wishlist\": true // Inside user wishlist? Yes or No\r\n        },\r\n        {\r\n            \"id\": 1,\r\n            \"user_id\": 5,\r\n            \"type\": \"MOV\",\r\n            \"rating\": 1.6, // given by the user searched\r\n            \"like_type\": \"DLK\", // Liked | Disliked | Blank (no info yet)\r\n            \"wishlist\": true // Inside user wishlist? Yes or No\r\n        }\r\n    ],\r\n    \"users\":[\r\n        {\r\n            \"id\": 1, // User id\r\n            \"firstname\": \"Mario\",\r\n            \"lastname\": \"Martinez\", // User last name\r\n            \"avatar_url\": \"avatar url\", // Url of avatar image\r\n            \"birthdate\": \"1999-03-11\", // String with the timestamp\r\n            \"gender\": \"M\", // User gender coded\r\n            \"country\": {\r\n                    \"id\": 1,\r\n                    \"name\": \"Colombia\", // English name\r\n                    \"code_2\": \"ISO 3166-1 alpha-2\", //ISO 3166-1 alpha-2\r\n                    \"code_3\": \"ISO 3166-1 alpha-3\"  //ISO 3166-1 alpha-3\r\n            }, // Country information\r\n            \"created_time\": \"2024-03-11 16:35:08.335\", // String with the timestamp\r\n            \"email\": \"mariomartinez@gmail.com\",\r\n            \"verified\": true,\r\n            \"setup\": \"false\"\r\n        },\r\n        {\r\n            \"id\": 2, // User id\r\n            \"firstname\": \"Juana\",\r\n            \"lastname\": \"Martinez\", // User last name\r\n            \"avatar_url\": \"avatar url\", // Url of avatar image\r\n            \"birthdate\": \"1989-03-11\", // String with the timestamp\r\n            \"gender\": \"F\", // User gender coded\r\n            \"country\": {\r\n                    \"id\": 2,\r\n                    \"name\": \"Panama\", // English name\r\n                    \"code_2\": \"ISO 3166-1 alpha-2\", //ISO 3166-1 alpha-2\r\n                    \"code_3\": \"ISO 3166-1 alpha-3\"  //ISO 3166-1 alpha-3\r\n            }, // Country information\r\n            \"created_time\": \"2024-03-11 16:35:08.335\", // String with the timestamp\r\n            \"email\": \"mariomartinez@gmail.com\",\r\n            \"verified\": true,\r\n            \"setup\": \"false\"\r\n        },\r\n        {\r\n            \"id\": 3, // User id\r\n            \"firstname\": \"Laura\",\r\n            \"lastname\": \"Martinez\", // User last name\r\n            \"avatar_url\": \"avatar url\", // Url of avatar image\r\n            \"birthdate\": \"2010-03-11\", // String with the timestamp\r\n            \"gender\": \"F\", // User gender coded\r\n            \"country\": {\r\n                    \"id\": 1,\r\n                    \"name\": \"Colombia\", // English name\r\n                    \"code_2\": \"ISO 3166-1 alpha-2\", //ISO 3166-1 alpha-2\r\n                    \"code_3\": \"ISO 3166-1 alpha-3\"  //ISO 3166-1 alpha-3\r\n            }, // Country information\r\n            \"created_time\": \"2024-03-11 16:35:08.335\", // String with the timestamp\r\n            \"email\": \"mariomartinez@gmail.com\",\r\n            \"verified\": true,\r\n            \"setup\": \"false\"\r\n        },\r\n        {\r\n            \"id\": 4, // User id\r\n            \"firstname\": \"Juan\",\r\n            \"lastname\": \"Martinez\", // User last name\r\n            \"avatar_url\": \"avatar url\", // Url of avatar image\r\n            \"birthdate\": \"2008-03-11\", // String with the timestamp\r\n            \"gender\": \"O\", // User gender coded\r\n            \"country\": {\r\n                    \"id\": 1,\r\n                    \"name\": \"Colombia\", // English name\r\n                    \"code_2\": \"ISO 3166-1 alpha-2\", //ISO 3166-1 alpha-2\r\n                    \"code_3\": \"ISO 3166-1 alpha-3\"  //ISO 3166-1 alpha-3\r\n            }, // Country information\r\n            \"created_time\": \"2024-03-11 16:35:08.335\", // String with the timestamp\r\n            \"email\": \"mariomartinez@gmail.com\",\r\n            \"verified\": true,\r\n            \"setup\": \"false\"\r\n        },\r\n        {\r\n            \"id\": 5, // User id\r\n            \"firstname\": \"Esperanza\",\r\n            \"lastname\": \"Martinez\", // User last name\r\n            \"avatar_url\": \"avatar url\", // Url of avatar image\r\n            \"birthdate\": \"1980-03-11\", // String with the timestamp\r\n            \"gender\": \"F\", // User gender coded\r\n            \"country\": {\r\n                    \"id\": 2,\r\n                    \"name\": \"Panama\", // English name\r\n                    \"code_2\": \"ISO 3166-1 alpha-2\", //ISO 3166-1 alpha-2\r\n                    \"code_3\": \"ISO 3166-1 alpha-3\"  //ISO 3166-1 alpha-3\r\n            }, // Country information\r\n            \"created_time\": \"2024-03-11 16:35:08.335\", // String with the timestamp\r\n            \"email\": \"mariomartinez@gmail.com\",\r\n            \"verified\": true,\r\n            \"setup\": \"false\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:4000/ads/analysis",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "4000",
+									"path": [
+										"ads",
+										"analysis"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Company routes",
+			"item": [
+				{
+					"name": "Create comapies",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Opti\",\r\n  \"email\": \"google@gmail.com\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/companies",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update company",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Opti\",\r\n  \"email\": \"Opti@gmail.com\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/companies/6",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"companies",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get companies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:4000/companies/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"companies",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payments",
+			"item": [
+				{
+					"name": "Create payments",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id_ad\": 8,\r\n  \"amount\": 123456\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/payments/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"payments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel payments",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/payments/cancel/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"payments",
+								"cancel",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:4000/payments/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"payments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pay bill",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:4000/payments/pay/7",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"payments",
+								"pay",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Payment",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/payments/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"payments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "UserAds",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id_ad\" : 6,\r\n    \"id_user\":3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/user/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:4000/user/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
