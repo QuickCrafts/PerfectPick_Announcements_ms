@@ -2,9 +2,9 @@
 import { Router } from 'express'
 import userAdsController from '../controllers/users_ads.controllers'
 
-const dataRouter = Router()
+const userAds = Router()
 
-dataRouter.get('/', userAdsController.getUsersAds)
-dataRouter.post('/', userAdsController.createUsersAds)
+userAds.get('/', userAdsController.getUsersAds)
+userAds.post('/', userAdsController.createUsersAds)
 
-export default dataRouter
+export default userAds

@@ -98,35 +98,53 @@ class PaymentsFacade {
   }
 
   public async payBill (req: Request, res: Response): Promise<void> {
-    const idPayment = req.params.id as unknown as number
-    const [rows] = await pool.query('SELECT * FROM payments WHERE id_payment = ?', [idPayment])
-    if ((rows as IPayment[]).length === 0) {
-      res.status(404).json({
-        message: 'Payment not found'
-      })
-      return
-    }
-    if ((rows as IPayment[])[0].status_payment === 'CANCELED') {
-      res.status(400).json({
-        message: 'Payment canceled'
-      })
-      return
-    }
+    try {
+      const idPayment = req.params.id as unknown as number
+      if (idPayment === undefined || idPayment === null || isNaN(Number(idPayment))) {
+        res.status(400).json({ message: 'Id not provided' })
+        return
+      }
+      const [rows] = await pool.query('SELECT * FROM payments WHERE id_payment = ?', [idPayment])
+      if ((rows as IPayment[]).length === 0) {
+        res.status(404).json({
+          message: 'Bill not found'
+        })
+        return
+      }
+      if ((rows as IPayment[])[0].status_payment === 'CANCELED') {
+        res.status(400).json({
+          message: 'Bill is canceled and cannot be processed.'
+        })
+        return
+      }
 
-    if ((rows as IPayment[])[0].status_payment === 'PAID') {
-      res.status(400).json({
-        message: 'Payment already paid'
+      if ((rows as IPayment[])[0].status_payment === 'PAID') {
+        res.status(400).json({
+          message: 'Payment already paid'
+        })
+        return
+      }
+
+      // Hacer pago
+      try {
+        const data = await this.createData(idPayment)
+        await pool.query('UPDATE mercadopago_data SET id_payment = ?, status_payment = "PAID" where id_reference =  ?', [idPayment, data.id_reference])
+        await pool.query('UPDATE payments SET status_payment = "PAID" WHERE id_payment = ?', [idPayment])
+        const response = {
+          message: 'Bill paid'
+        }
+        res.status(201).json(response)
+      } catch (e) {
+        await pool.query('UPDATE payments SET status_payment = "CANCELED" WHERE id_payment = ?', [idPayment])
+        res.status(400).json({
+          message: 'Payment wrong. Bill canceled.'
+        })
+      }
+    } catch (e) {
+      res.status(500).json({
+        message: 'Error'
       })
-      return
     }
-    const data = await this.createData(idPayment)
-    // Hacer pago
-    await pool.query('UPDATE mercadopago_data SET id_payment = ?, status_payment = "PAID" where id_reference =  ?', [idPayment, data.id_reference])
-    await pool.query('UPDATE payments SET status_payment = "PAID" WHERE id_payment = ?', [idPayment])
-    const response = {
-      idPayment
-    }
-    res.json(response)
   }
 
   public async createData (id_payment: number): Promise<IData> {

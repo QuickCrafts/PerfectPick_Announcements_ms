@@ -12,40 +12,46 @@ import { IAgeRange } from '../dtos/IAnalysis.dto'
 
 class AdsFacade {
   public async getAds (req: Request, res: Response): Promise<void> {
-    const { exact_date, start_date, end_date, id_company, published_ad } = req.body
-    if (exact_date !== undefined && typeof exact_date === 'boolean' && exact_date) {
-      if (start_date !== undefined && typeof start_date === 'string') {
-        const [rows] = await pool.query('SELECT * FROM ads where start_date_ad = ?', [start_date])
+    try {
+      const { exact_date, start_date, end_date, id_company, published_ad } = req.body
+      if (exact_date !== undefined && typeof exact_date === 'boolean' && exact_date) {
+        if (start_date !== undefined && typeof start_date === 'string') {
+          const [rows] = await pool.query('SELECT * FROM ads where start_date_ad = ?', [start_date])
+          res.json(rows)
+          return
+        } else if (end_date !== undefined && typeof end_date === 'string') {
+          const [rows] = await pool.query('SELECT * FROM ads where end_date_ad = ?', [end_date])
+          res.json(rows)
+          return
+        }
+      } else if (start_date !== undefined && typeof start_date === 'string' && end_date !== undefined && typeof end_date === 'string') {
+        const [rows] = await pool.query('SELECT * FROM ads where start_date_ad >= ? and end_date_ad <= ?', [start_date, end_date])
+        res.json(rows)
+        return
+      } else if (start_date !== undefined && typeof start_date === 'string') {
+        const [rows] = await pool.query('SELECT * FROM ads where start_date_ad >= ?', [start_date])
         res.json(rows)
         return
       } else if (end_date !== undefined && typeof end_date === 'string') {
-        const [rows] = await pool.query('SELECT * FROM ads where end_date_ad = ?', [end_date])
+        const [rows] = await pool.query('SELECT * FROM ads where end_date_ad <= ?', [end_date])
+        res.json(rows)
+        return
+      } else if (id_company !== undefined && typeof id_company === 'number') {
+        const [rows] = await pool.query('SELECT * FROM ads where id_company = ?', [id_company])
+        res.json(rows)
+        return
+      } else if (published_ad !== undefined && typeof published_ad === 'boolean' && published_ad) {
+        const [rows] = await pool.query('SELECT * FROM ads where published_ad = ?', [published_ad])
         res.json(rows)
         return
       }
-    } else if (start_date !== undefined && typeof start_date === 'string' && end_date !== undefined && typeof end_date === 'string') {
-      const [rows] = await pool.query('SELECT * FROM ads where start_date_ad >= ? and end_date_ad <= ?', [start_date, end_date])
-      res.json(rows)
-      return
-    } else if (start_date !== undefined && typeof start_date === 'string') {
-      const [rows] = await pool.query('SELECT * FROM ads where start_date_ad >= ?', [start_date])
-      res.json(rows)
-      return
-    } else if (end_date !== undefined && typeof end_date === 'string') {
-      const [rows] = await pool.query('SELECT * FROM ads where end_date_ad <= ?', [end_date])
-      res.json(rows)
-      return
-    } else if (id_company !== undefined && typeof id_company === 'number') {
-      const [rows] = await pool.query('SELECT * FROM ads where id_company = ?', [id_company])
-      res.json(rows)
-      return
-    } else if (published_ad !== undefined && typeof published_ad === 'boolean' && published_ad) {
-      const [rows] = await pool.query('SELECT * FROM ads where published_ad = ?', [published_ad])
-      res.json(rows)
-      return
+      const [rows] = await pool.query('SELECT * FROM ads')
+      res.status(200).json(rows)
+    } catch (e) {
+      res.status(500).json({
+        message: 'Error'
+      })
     }
-    const [rows] = await pool.query('SELECT * FROM ads')
-    res.json(rows)
   }
 
   public async getById (req: Request, res: Response): Promise<void> {
@@ -155,38 +161,56 @@ class AdsFacade {
   }
 
   public async publishAd (req: Request, res: Response): Promise<void> {
-    const idAd = req.params.id
-    const [rowsPayment] = await pool.query('SELECT * FROM payments WHERE id_ad = ?', [idAd])
-    const [rowsAds] = await pool.query('SELECT * FROM ads WHERE id_ad = ?', [idAd])
-    const payments = rowsPayment as IPayment[]
-    const ads = rowsAds as IAdsDB[]
+    try {
+      const idAd = req.params.id
+      const [rowsPayment] = await pool.query('SELECT * FROM payments WHERE id_ad = ?', [idAd])
+      const [rowsAds] = await pool.query('SELECT * FROM ads WHERE id_ad = ?', [idAd])
+      const payments = rowsPayment as IPayment[]
+      const ads = rowsAds as IAdsDB[]
 
-    if (payments.length === 0) {
-      res.status(400).json({
-        message: 'You need to pay for the ad'
-      })
-      return
-    }
-    for (const payment of payments) {
-      if (payment.status_payment === 'PAID') {
-        const date = new Date()
-        if (date >= new Date(ads[0].start_date_ad) && date <= new Date(ads[0].end_date_ad)) {
-          await pool.query('UPDATE ads SET published_ad = 1 WHERE id_ad = ?', [idAd])
-          res.status(200).json({
-            message: idAd
-          })
-        } else {
-          res.status(400).json({
-            message: 'The ad is not in the correct date'
-          })
+      if (payments.length === 0) {
+        res.status(400).json({
+          message: 'Ad not paid or not in active dates'
+        })
+        return
+      }
+      for (const payment of payments) {
+        if (payment.status_payment === 'PAID') {
+          const date = new Date()
+          if (date >= new Date(ads[0].start_date_ad) && date <= new Date(ads[0].end_date_ad)) {
+            await pool.query('UPDATE ads SET published_ad = 1 WHERE id_ad = ?', [idAd])
+            res.status(200).json({
+              message: idAd
+            })
+          } else {
+            res.status(400).json({
+              message: 'Ad not paid or not in active dates'
+            })
+          }
         }
       }
+    } catch (e) {
+      res.status(500).json({
+        message: 'Error'
+      })
     }
   }
 
   public async getByUserActiveAds (req: Request, res: Response): Promise<void> {
     const idUser = req.params.id
+    if (idUser === undefined || idUser === null || isNaN(Number(idUser))) {
+      res.status(400).json({
+        message: 'Id not provided'
+      })
+      return
+    }
     const [rows] = await pool.query('SELECT * FROM ads WHERE id_ad IN (SELECT id_ad FROM users_ads WHERE id_user = ?) AND published_ad = 1', [idUser])
+    if ((rows as IAds[]).length === 0) {
+      res.status(404).json({
+        message: 'Ad or user not found'
+      })
+      return
+    }
     res.json(rows)
   }
 

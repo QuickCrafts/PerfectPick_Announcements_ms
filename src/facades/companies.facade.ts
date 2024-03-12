@@ -4,9 +4,16 @@ import { OkPacket } from 'mysql2'
 
 class CompaniesFacade {
   public async getCompanies (res: Response): Promise<void> {
-    const [rows] = await pool.query('SELECT * FROM companies')
-    console.log(rows)
-    res.json(rows)
+    try {
+      const [rows] = await pool.query('SELECT * FROM companies')
+      console.log(rows)
+      res.status(200).json(rows)
+    } catch (e) {
+      console.log(e)
+      res.status(500).json({
+        message: 'Error'
+      })
+    }
   }
 
   public async getById (req: Request, res: Response): Promise <void> {

@@ -11,11 +11,17 @@ class UserAdsFacade {
   }
 
   public async createUsersAds (req: Request, res: Response): Promise<void> {
-    const { id_ad, id_user } = req.body
-    const [rows] = await pool.query('INSERT INTO users_ads (id_ad, id_user) VALUES (?, ?)', [id_ad, id_user])
-    const response = {
-      id: (rows as OkPacket).insertId
+    try {
+      const { id_ad, id_user } = req.body
+      const [rows] = await pool.query('INSERT INTO users_ads (id_ad, id_user) VALUES (?, ?)', [id_ad, id_user])
+      const response = {
+        id: (rows as OkPacket).insertId
+      }
+      res.status(200).json(response)
+    } catch (e) {
+      res.status(500).json({
+        message: 'Error'
+      })
     }
-    res.json(response)
   }
 } export default new UserAdsFacade()
