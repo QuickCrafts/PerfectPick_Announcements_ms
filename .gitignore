@@ -9,3 +9,9 @@ db/
 
 #Ignore vscode settings
 .vscode/
+
+#Ignore docker
+docker-compose.yml
+.env
+.dockerignore
+Dockerfile

@@ -17,7 +17,6 @@ class MercadoPagoDataFacade {
 
   public async createData (req: Request, res: Response): Promise<void> {
     const { idReference, idPayment, statusPayment } = req.body
-    console.log(req.body)
     const [rows] = await pool.query('INSERT INTO mercadopago_data (id_reference, id_payment, status_payment) VALUES (?, ?, ?)', [idReference, idPayment, statusPayment])
     console.log(rows)
     const response = {

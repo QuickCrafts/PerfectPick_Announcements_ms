@@ -88,6 +88,7 @@ class AdsFacade {
         const response = {
           id: (rows as OkPacket).insertId
         }
+        console.log(rows)
         res.status(201).json(response)
       } catch (e) {
         res.status(400).json({ message: 'Guard failed' })
