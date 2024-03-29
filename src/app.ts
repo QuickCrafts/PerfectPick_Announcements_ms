@@ -20,6 +20,9 @@ export class App {
   }
 
   private initRoutes (): void {
+    this.app.get('/', (_req, res) => {
+      res.send('Hello ')
+    })
     this.app.use('/ads', adsRoutes)
     this.app.use('/companies', companiesRouter)
     this.app.use('/payments', paymentsRouter)

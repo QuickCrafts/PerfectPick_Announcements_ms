@@ -9,10 +9,10 @@ export const adSchemaCreated = z.object({
   }).url({
     message: 'Ad must be a valid URL'
   }),
-  start_date: z.date({
+  start_date: z.coerce.date({
     required_error: 'Start date is required'
   }),
-  end_date: z.date({
+  end_date: z.coerce.date({
     required_error: 'End date is required'
   }),
   description: z.string().min(3).max(255).optional(),
@@ -28,10 +28,10 @@ export const adSchemaUpdated = z.object({
   ad: z.string().url({
     message: 'Ad must be a valid URL'
   }).optional(),
-  start_date: z.date({
+  start_date: z.coerce.date({
     required_error: 'Start date must be a valid date'
   }).optional(),
-  end_date: z.date({
+  end_date: z.coerce.date({
     required_error: 'End date must be a valid date'
   }).optional(),
   description: z.string().min(3).max(255).optional(),
@@ -44,10 +44,10 @@ export const adSchemaGet = z.object({
   exact_date: z.boolean({
     required_error: 'Exact date must be a boolean'
   }).optional(),
-  start_date: z.date({
+  start_date: z.coerce.date({
     required_error: 'Start date must be a valid date'
   }).optional(),
-  end_date: z.date({
+  end_date: z.coerce.date({
     required_error: 'End date must be a valid date'
   }).optional(),
   id_company: z.number({

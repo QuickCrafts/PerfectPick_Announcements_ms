@@ -54,7 +54,13 @@ class CompaniesFacade {
       }
       const { name, email } = req.body
       try {
-        const [rows] = await pool.query('UPDATE companies SET name_company = ?, email_company = ? WHERE id_company = ?', [name, email, idCompany])
+        let rows
+        if (name !== undefined) {
+          [rows] = await pool.query('UPDATE companies SET name_company = ? WHERE id_company = ?', [name, idCompany])
+        }
+        if (email !== undefined) {
+          [rows] = await pool.query('UPDATE companies SET email_company = ? WHERE id_company = ?', [email, idCompany])
+        }
         if ((rows as OkPacket).affectedRows === 0) {
           res.status(404).json({
             message: 'Company not found'

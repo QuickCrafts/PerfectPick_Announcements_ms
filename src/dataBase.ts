@@ -3,7 +3,7 @@ import { Config } from './config/config'
 
 const config = new Config()
 export const pool = createPool({
-  host: config.getURI(), // ip
+  host: config.getHost(), // ip
   user: config.getUser(),
   password: config.getPassword(),
   port: config.getDBPORT(),

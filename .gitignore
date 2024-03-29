@@ -11,7 +11,4 @@ db/
 .vscode/
 
 #Ignore docker
-docker-compose.yml
 .env
-.dockerignore
-Dockerfile

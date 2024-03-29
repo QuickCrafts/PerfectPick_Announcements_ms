@@ -83,7 +83,16 @@ class AdsFacade {
       const { name, ad, start_date, end_date, description, id_company } = req.body
       const create_date = new Date()
       const published_ad = 0
+
       try {
+        const [company] = await pool.query('SELECT * FROM companies WHERE id_company = ?', [id_company])
+        if ((company as IAds[]).length === 0) {
+          res.status(404).json({
+            message: 'Company not found'
+          })
+          return
+        }
+
         const [rows] = await pool.query('INSERT INTO ads (name_ad, ad_url,start_date_ad,end_date_ad,create_date_ad,description_ad,published_ad,id_company) VALUES (?, ?,?, ?,?, ?,?, ?)', [name, ad, start_date, end_date, create_date, description, published_ad, id_company])
         const response = {
           id: (rows as OkPacket).insertId
@@ -111,7 +120,33 @@ class AdsFacade {
       }
       const { name, ad, start_date, end_date, description, id_company } = req.body
       try {
-        const [rows] = await pool.query('UPDATE ads SET name_ad = ?, ad_url = ?,start_date_ad = ?,end_date_ad = ?,description_ad = ?,id_company = ? WHERE id_ad = ?', [name, ad, start_date, end_date, description, id_company, idAd])
+        const [company] = await pool.query('SELECT * FROM companies WHERE id_company = ?', [id_company])
+        if ((company as IAds[]).length === 0) {
+          res.status(404).json({
+            message: 'Company not found'
+          })
+          return
+        }
+        let rows
+        if (name !== undefined) {
+          [rows] = await pool.query('UPDATE ads SET name_ad = ? WHERE id_ad = ?', [name, idAd])
+        }
+        if (ad !== undefined) {
+          [rows] = await pool.query('UPDATE ads SET ad_url = ? WHERE id_ad = ?', [ad, idAd])
+        }
+        if (start_date !== undefined) {
+          [rows] = await pool.query('UPDATE ads SET start_date_ad = ? WHERE id_ad = ?', [start_date, idAd])
+        }
+        if (end_date !== undefined) {
+          [rows] = await pool.query('UPDATE ads SET end_date_ad = ? WHERE id_ad = ?', [end_date, idAd])
+        }
+        if (description !== undefined) {
+          [rows] = await pool.query('UPDATE ads SET description_ad = ? WHERE id_ad = ?', [description, idAd])
+        }
+        if (id_company !== undefined) {
+          [rows] = await pool.query('UPDATE ads SET id_company = ? WHERE id_ad = ?', [id_company, idAd])
+        }
+
         if ((rows as OkPacket).affectedRows === 0) {
           res.status(404).json({
             message: 'Ad not found'
@@ -300,7 +335,6 @@ class AdsFacade {
             if (value.upper_age === 0 || value.upper_age < age) {
               value.upper_age = age
             }
-
             ageDictionary.set(key, value)
           }
         }

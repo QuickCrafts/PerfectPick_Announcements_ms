@@ -52,7 +52,7 @@ export const Get_User_Schema = z.object({
   avatar_url: z.string().url({
     message: 'Avatar URL must be a valid URL'
   }).optional(),
-  birthdate: z.date({
+  birthdate: z.coerce.date({
     required_error: 'Birthdate must be a valid date'
   }).optional(),
   gender: z.enum(['M', 'F', 'O', 'P']).optional(),
