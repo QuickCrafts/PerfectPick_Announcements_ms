@@ -19,7 +19,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "// Body interface\r\n{\r\n  \"name\": \"Opti ads\",\r\n  \"ad\": \"urlOpti\", // string Base64 Ad image coded\r\n  \"start_date\": \"2023-01-11\", //timestamp of start date to publish ad\r\n  \"end_date\": \"2024-02-11\", //timestamp of end date to publish ad\r\n  \"description\": \"DESCRIPCION DE AD\",\r\n  \"id_company\": 6\r\n}",
+									"raw": "// Body interface\r\n{\r\n  \"name\": \"Opti ads\",\r\n  \"ad\": \"https://quo.mx/wp-content/uploads/2023/05/skoll-y-hati.jpg\", // string Base64 Ad image coded\r\n  \"start_date\": \"2023-01-11\", //timestamp of start date to publish ad\r\n  \"end_date\": \"2025-02-11\", //timestamp of end date to publish ad\r\n  \"description\": \"DESCRIPCION DE AD\",\r\n  \"id_company\": 6\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -357,7 +357,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id_company\" : \r\n}",
+									"raw": "{\r\n    \"id_company\" : 1 \r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -679,10 +679,22 @@
 					"response": []
 				},
 				{
-					"name": "Get Payments",
+					"name": "Get ALL Payments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"id_company\":1, \r\n    \"id_ad\":1, \r\n    \"status\":\"PAID\" \r\n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "http://127.0.0.1:4000/payments/",
 							"protocol": "http",
@@ -696,6 +708,146 @@
 							"path": [
 								"payments",
 								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payments by Status",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"status\":\"PAID\" \r\n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/payments/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"payments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payments by Ad_id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"id_ad\":1 \r\n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/payments/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"payments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payments Company",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"id_company\":1\r\n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/payments/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"payments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get payments by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/payments/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"payments",
+								"1"
 							]
 						}
 					},
@@ -720,38 +872,6 @@
 								"payments",
 								"pay",
 								"7"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Payment",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://127.0.0.1:4000/payments/1",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "4000",
-							"path": [
-								"payments",
-								"1"
 							]
 						}
 					},
