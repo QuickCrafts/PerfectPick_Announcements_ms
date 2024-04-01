@@ -19,7 +19,7 @@ export class AdsService {
     const max = 120
     for (let index = 0; index < max; index = index + length) {
       const lower = index
-      const upper = index + length
+      const upper = index + length - 1
       const key = {
         lower,
         upper
@@ -28,7 +28,12 @@ export class AdsService {
         lower_age: 0,
         upper_age: 0,
         total: 0,
-        like_info: 0
+        like_info: {
+          lk_total: 0,
+          dlk_total: 0,
+          blk_total: 0,
+          avr_rating: 0
+        }
       }
       dictionary.set(key, value)
     }

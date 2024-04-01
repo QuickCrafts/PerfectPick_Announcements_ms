@@ -8,7 +8,7 @@ import { ILikes } from '../dtos/ILikes.dto'
 import { IUser } from '../dtos/IUser.dto'
 import { ICountry, ICountryCount } from '../dtos/ICountries.dto'
 import { AdsService } from '../services/ads.services'
-import { IAgeRange } from '../dtos/IAnalysis.dto'
+import { IAgeRange, ICountLikes } from '../dtos/IAnalysis.dto'
 
 class AdsFacade {
   public async getAds (req: Request, res: Response): Promise<void> {
@@ -259,66 +259,99 @@ class AdsFacade {
       const usersI = users as IUser[]
       // const countries = arr3 as ICountry[]
 
-      // Count likes
-      let lk_total = 0
-      let dlk_total = 0
-      let blk_total = 0
-      let avr_rating = 0
-      const users_like: IUser[] = []
-      for (const like of likesI) {
-        if (like.like_type === 'LK') {
-          users_like.push(usersI.find(user => user.id === like.user_id) as IUser)
-          lk_total = lk_total + 1
-          if (like.rating !== undefined) avr_rating = avr_rating + like.rating
-        } else if (like.like_type === 'DLK') {
-          dlk_total = dlk_total + 1
-        } else if (like.like_type === 'BLK') {
-          blk_total = blk_total + 1
-        }
-      }
-      avr_rating = avr_rating / lk_total
-
       // Gender analysis
-      let f = 0
-      let m = 0
-      let o = 0
-      let p = 0
+      const f: ICountLikes = {
+        lk_total: 0,
+        dlk_total: 0,
+        blk_total: 0,
+        avr_rating: 0
+      }
+      const m: ICountLikes = {
+        lk_total: 0,
+        dlk_total: 0,
+        blk_total: 0,
+        avr_rating: 0
+      }
+      const o: ICountLikes = {
+        lk_total: 0,
+        dlk_total: 0,
+        blk_total: 0,
+        avr_rating: 0
+      }
+      const p: ICountLikes = {
+        lk_total: 0,
+        dlk_total: 0,
+        blk_total: 0,
+        avr_rating: 0
+      }
 
       // Country analysis
-      const countries_count: ICountry[] = []
-      const age_count: any = []
+      const nationality: ICountry[] = []
+      const age: any = []
 
       const adsService = new AdsService()
 
       const country_dictionary = new Map<string, ICountryCount>()
-      for (const user of users_like) {
-        if (user.country !== undefined) {
-          if (country_dictionary.has(user.country.name)) {
-            const country = country_dictionary.get(user.country.name) as ICountryCount
-            country.count = country.count + 1
-            country_dictionary.set(user.country.name, country)
-          } else {
-            const country = user.country as ICountryCount
-            country.count = 1
-            country_dictionary.set(country.name, country)
-          }
-        }
-        if (user.gender === 'F') {
-          f = f + 1
-        } else if (user.gender === 'M') {
-          m = m + 1
-        } else if (user.gender === 'O') {
-          o = o + 1
-        } else if (user.gender === 'P') {
-          p = p + 1
-        }
-      }
 
       // Age analysis
       const currentDate = new Date()
       const length = 10
       const ageDictionary = adsService.createDictionary(length)
+
       for (const user of usersI) {
+        const likeRelation = likesI.filter(like => like.user_id === user.id)[0]
+        if (user.country !== undefined) {
+          let country: ICountryCount
+          if (country_dictionary.has(user.country.name)) {
+            country = country_dictionary.get(user.country.name) as ICountryCount
+          } else {
+            country = user.country as ICountryCount
+            country.like_info = {
+              lk_total: 0,
+              dlk_total: 0,
+              blk_total: 0,
+              avr_rating: 0
+            }
+          }
+          console.log(likeRelation.like_type)
+          console.log(country)
+          if (likeRelation.like_type === 'LK') {
+            country.like_info.lk_total = country.like_info.lk_total + 1
+            console.log('lk')
+          } else if (likeRelation.like_type === 'DLK') {
+            country.like_info.dlk_total = country.like_info.dlk_total + 1
+          } else if (likeRelation.like_type === 'BLK') {
+            country.like_info.blk_total = country.like_info.blk_total + 1
+          }
+          if (likeRelation.rating !== undefined) {
+            country.like_info.avr_rating = country.like_info.avr_rating + likeRelation.rating
+          }
+          country_dictionary.set(user.country.name, country)
+        }
+
+        if (user.gender === 'F') {
+          if (likeRelation.like_type === 'LK') f.lk_total = f.lk_total + 1
+          else if (likeRelation.like_type === 'DLK') f.dlk_total = f.dlk_total + 1
+          else if (likeRelation.like_type === 'BLK') f.blk_total = f.blk_total + 1
+          if (likeRelation.rating !== undefined) f.avr_rating = f.avr_rating + likeRelation.rating
+        } else if (user.gender === 'M') {
+          if (likeRelation.like_type === 'LK') m.lk_total = m.lk_total + 1
+          else if (likeRelation.like_type === 'DLK') m.dlk_total = m.dlk_total + 1
+          else if (likeRelation.like_type === 'BLK') m.blk_total = m.blk_total + 1
+          if (likeRelation.rating !== undefined) m.avr_rating = m.avr_rating + likeRelation.rating
+        } else if (user.gender === 'O') {
+          if (likeRelation.like_type === 'LK') o.lk_total = o.lk_total + 1
+          else if (likeRelation.like_type === 'DLK') o.dlk_total = o.dlk_total + 1
+          else if (likeRelation.like_type === 'BLK') o.blk_total = o.blk_total + 1
+          if (likeRelation.rating !== undefined) o.avr_rating = o.avr_rating + likeRelation.rating
+        } else if (user.gender === 'P') {
+          if (likeRelation.like_type === 'LK') p.lk_total = p.lk_total + 1
+          else if (likeRelation.like_type === 'DLK') p.dlk_total = p.dlk_total + 1
+          else if (likeRelation.like_type === 'BLK') p.blk_total = p.blk_total + 1
+          if (likeRelation.rating !== undefined) p.avr_rating = p.avr_rating + likeRelation.rating
+        }
+
+        // Age analysis
         if (user.birthdate !== undefined) {
           const age = adsService.getEdad(currentDate, user.birthdate)
           const key = Array.from(ageDictionary.keys()).find(key => key.lower <= age && key.upper >= age)
@@ -326,9 +359,11 @@ class AdsFacade {
             const value = ageDictionary.get(key) as IAgeRange
             value.total = value.total + 1
 
-            if (likesI.find(like => like.user_id === user.id) !== undefined) {
-              value.like_info = value.like_info + 1
-            }
+            if (likeRelation.like_type === 'LK') value.like_info.lk_total = value.like_info.lk_total + 1
+            else if (likeRelation.like_type === 'DLK') value.like_info.dlk_total = value.like_info.dlk_total + 1
+            else if (likeRelation.like_type === 'BLK') value.like_info.blk_total = value.like_info.blk_total + 1
+            if (likeRelation.rating !== undefined) value.like_info.avr_rating = value.like_info.avr_rating + likeRelation.rating
+
             if (value.lower_age === 0 || value.lower_age > age) {
               value.lower_age = age
             }
@@ -339,25 +374,36 @@ class AdsFacade {
           }
         }
       }
+      // Avr_rating
+      if (f.lk_total + f.dlk_total + f.blk_total !== 0) f.avr_rating = f.avr_rating / (f.lk_total + f.dlk_total + f.blk_total)
+      if (m.lk_total + m.dlk_total + m.blk_total !== 0) m.avr_rating = m.avr_rating / (m.lk_total + m.dlk_total + m.blk_total)
+      if (o.lk_total + o.dlk_total + o.blk_total !== 0) o.avr_rating = o.avr_rating / (o.lk_total + o.dlk_total + o.blk_total)
+      if (p.lk_total + p.dlk_total + p.blk_total !== 0) p.avr_rating = p.avr_rating / (p.lk_total + p.dlk_total + p.blk_total)
+
       // Nationality analysis
       country_dictionary.forEach((value, _key) => {
-        countries_count.push(value)
+        const total = value.like_info.lk_total + value.like_info.dlk_total + value.like_info.blk_total
+        if (total !== 0) value.like_info.avr_rating = value.like_info.avr_rating / total
+        nationality.push(value)
       })
 
       ageDictionary.forEach((value, key) => {
-        age_count.push({ key, value })
+        const total = value.like_info.lk_total + value.like_info.dlk_total + value.like_info.blk_total
+        if (total !== 0) value.like_info.avr_rating = value.like_info.avr_rating / total
+        const ageRange = {
+          range: (key.lower as unknown as string) + '-' + (key.upper as unknown as string),
+          lower_age: value.lower_age,
+          upper_age: value.upper_age,
+          total: value.total,
+          like_info: value.like_info
+        }
+        age.push(ageRange)
       })
       const gender = {
         f,
         m,
         o,
         p
-      }
-      const nationality = {
-        countries_count
-      }
-      const age = {
-        age_count
       }
       const analysis = {
         id: likesI[0].id,

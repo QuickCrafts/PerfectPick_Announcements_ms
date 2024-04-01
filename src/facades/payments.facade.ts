@@ -1,14 +1,39 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Request, Response } from 'express'
 import { pool } from '../dataBase'
-import { OkPacket } from 'mysql2'
+import { OkPacket, RowDataPacket } from 'mysql2'
 import { IPayment } from '../dtos/Ipayment.dto'
 import { IData } from '../dtos/IData.dto'
+import { IAds } from '../dtos/Iads.dto'
 
 class PaymentsFacade {
-  public async getPayments (res: Response): Promise<void> {
+  public async getPayments (req: Request, res: Response): Promise<void> {
     try {
       try {
+        const { id_company, id_ad, status } = req.body
+        if (id_company !== undefined && typeof id_company === 'number') {
+          const paymentsByCompany = []
+          console.log('id_company')
+          const [rows] = await pool.query('SELECT * FROM payments')
+          for (const row of rows as RowDataPacket[]) {
+            const [rows2] = await pool.query('SELECT * FROM ads WHERE id_ad = ?', [row.id_ad])
+            const ad = rows2 as IAds[]
+            if (ad[0].id_company === id_company) {
+              paymentsByCompany.push(row)
+            }
+          }
+          res.json(paymentsByCompany)
+          return
+        } else if (id_ad !== undefined && typeof id_ad === 'number') {
+          const [rows] = await pool.query('SELECT * FROM payments WHERE id_ad = ?', [id_ad])
+          res.json(rows)
+          return
+        } else if (status !== undefined && typeof status === 'string') {
+          const [rows] = await pool.query('SELECT * FROM payments WHERE status_payment = ?', [status])
+          res.json(rows)
+          return
+        }
+
         const [rows] = await pool.query('SELECT * FROM payments')
         res.status(201).json(rows)
       } catch (e) {

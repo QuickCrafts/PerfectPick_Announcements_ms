@@ -2,8 +2,8 @@ import { Request, Response } from 'express'
 import paymentsFacade from '../facades/payments.facade'
 
 class PaymentsController {
-  public async getPayments (_req: Request, res: Response): Promise<void> {
-    return await paymentsFacade.getPayments(res)
+  public async getPayments (req: Request, res: Response): Promise<void> {
+    return await paymentsFacade.getPayments(req, res)
   }
 
   public async getById (req: Request, res: Response): Promise<void> {

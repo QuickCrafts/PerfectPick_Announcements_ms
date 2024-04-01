@@ -1,3 +1,5 @@
+import { ICountLikes } from './IAnalysis.dto'
+
 export interface ICountry {
   id: number
   name: string
@@ -6,5 +8,5 @@ export interface ICountry {
 }
 
 export interface ICountryCount extends ICountry {
-  count: number
+  like_info: ICountLikes
 }

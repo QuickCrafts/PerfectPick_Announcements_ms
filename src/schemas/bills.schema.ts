@@ -12,3 +12,13 @@ export const billSchemaCreated = z.object({
     message: 'Amount must be an integer'
   })
 })
+
+export const billSchemaGet = z.object({
+  id_company: z.number().int({
+    message: 'Company ID must be an integer'
+  }).optional(),
+  id_ad: z.number().int({
+    message: 'Ad ID must be an integer'
+  }).optional(),
+  status: z.enum(['CREATED', 'PAID', 'CANCELED']).optional()
+})
