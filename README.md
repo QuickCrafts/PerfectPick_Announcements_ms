@@ -3,6 +3,7 @@
 Generation and management ads based on user likes of movies, songs and books.
 
 ---
+
 <br />
 
 ## API Reference
@@ -19,26 +20,26 @@ Create new ad. Returns ad id generated.
 
 ```typescript
 // Body interface
-interface Create_Ad{
-  name: string
-  ad: string // string Base64 Ad image coded
-  start_date: string //timestamp of start date to publish ad
-  end_date: string //timestamp of end date to publish ad
-  description: string
-  id_company: int
+interface Create_Ad {
+  name: string;
+  ad: string; // string Base64 Ad image coded
+  start_date: string; //timestamp of start date to publish ad
+  end_date: string; //timestamp of end date to publish ad
+  description: string;
+  id_company: int;
 }
 ```
 
-| Response Status | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `201` | `success` | Returns ad id|
-| `400` | `error` | "Guard failed" |
-| `500` | `error` | Any other error message|
+| Response Status | Type      | Description             |
+| :-------------- | :-------- | :---------------------- |
+| `201`           | `success` | Returns ad id           |
+| `400`           | `error`   | "Guard failed"          |
+| `500`           | `error`   | Any other error message |
 
 ```typescript
 // Response interface
-interface Create_ad_Response{
-  id: number // Ad id
+interface Create_ad_Response {
+  id: number; // Ad id
 }
 ```
 
@@ -52,27 +53,27 @@ Update ad.
 
 ```typescript
 // Body interface
-interface Update_Ad{
-  name?: string
-  ad?: string // string Base64 Ad image coded
-  start_date?: string //timestamp of start date to publish ad
-  end_date?: string //timestamp of end date to publish ad
-  description?: string
-  id_company?: string
+interface Update_Ad {
+  name?: string;
+  ad?: string; // string Base64 Ad image coded
+  start_date?: string; //timestamp of start date to publish ad
+  end_date?: string; //timestamp of end date to publish ad
+  description?: string;
+  id_company?: string;
 }
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id` | `int` | **Required**. ad id |
+| Parameter | Type  | Description         |
+| :-------- | :---- | :------------------ |
+| `id`      | `int` | **Required**. ad id |
 
-| Response Status | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `201` | `success` | "Ad updated"|
-| `400` | `error` | "Guard failed" |
-| `400` | `error` | "Id not provided" |
-| `404` | `error` | "Ad not found" |
-| `500` | `error` | Any other error message|
+| Response Status | Type      | Description             |
+| :-------------- | :-------- | :---------------------- |
+| `201`           | `success` | "Ad updated"            |
+| `400`           | `error`   | "Guard failed"          |
+| `400`           | `error`   | "Id not provided"       |
+| `404`           | `error`   | "Ad not found"          |
+| `500`           | `error`   | Any other error message |
 
 #### Delete ad
 
@@ -82,16 +83,16 @@ Delete ad.
   DELETE /ads/${id}
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id` | `int` | **Required**. ad id |
+| Parameter | Type  | Description         |
+| :-------- | :---- | :------------------ |
+| `id`      | `int` | **Required**. ad id |
 
-| Response Status | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `204` | `success` | No content|
-| `400` | `error` | "Id not provided" |
-| `404` | `error` | "Ad not found" |
-| `500` | `error` | Any other error message|
+| Response Status | Type      | Description             |
+| :-------------- | :-------- | :---------------------- |
+| `204`           | `success` | No content              |
+| `400`           | `error`   | "Id not provided"       |
+| `404`           | `error`   | "Ad not found"          |
+| `500`           | `error`   | Any other error message |
 
 #### Get ad
 
@@ -101,34 +102,34 @@ Get ad.
   GET /ads/${id}
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id` | `int` | **Required**. ad id |
+| Parameter | Type  | Description         |
+| :-------- | :---- | :------------------ |
+| `id`      | `int` | **Required**. ad id |
 
-| Response Status | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `200` | `success` | Return complete ad information|
-| `400` | `error` | "Id not provided" |
-| `404` | `error` | "Ad not found" |
-| `500` | `error` | Any other error message|
+| Response Status | Type      | Description                    |
+| :-------------- | :-------- | :----------------------------- |
+| `200`           | `success` | Return complete ad information |
+| `400`           | `error`   | "Id not provided"              |
+| `404`           | `error`   | "Ad not found"                 |
+| `500`           | `error`   | Any other error message        |
 
 ```typescript
 interface Company {
-    id: number // company id
-    name: string
-    email: string
+  id: number; // company id
+  name: string;
+  email: string;
 }
 
 // Response interface
 interface Ad {
-    id: number // ad id
-    name: string
-    ad_url: string // Bucket url to display ad image
-    start_date: string //timestamp of start date to publish ad
-    end_date: string //timestamp of end date to publish ad
-    description: string
-    company: Company
-    published: boolean
+  id: number; // ad id
+  name: string;
+  ad_url: string; // Bucket url to display ad image
+  start_date: string; //timestamp of start date to publish ad
+  end_date: string; //timestamp of end date to publish ad
+  description: string;
+  company: Company;
+  published: boolean;
 }
 ```
 
@@ -146,42 +147,42 @@ If only end date is given, it returns all the ads that end_date <= end date give
   GET /ads
 ```
 
-| Query Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `company` | `int` | company id |
-| `exact_date` | `boolean` | exact start or end date ad |
-| `start_date` | `string` | start date timestamp |
-| `end_date` | `string` | end date timestamp |
-| `published` | `boolean` | is a published ad? |
+| Query Parameter | Type      | Description                |
+| :-------------- | :-------- | :------------------------- |
+| `company`       | `int`     | company id                 |
+| `exact_date`    | `boolean` | exact start or end date ad |
+| `start_date`    | `string`  | start date timestamp       |
+| `end_date`      | `string`  | end date timestamp         |
+| `published`     | `boolean` | is a published ad?         |
 
-| Response Status | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `200` | `success` | Return ads list|
-| `400` | `error` | "Id not provided" |
-| `404` | `error` | "Ad not found" |
-| `500` | `error` | Any other error message|
+| Response Status | Type      | Description             |
+| :-------------- | :-------- | :---------------------- |
+| `200`           | `success` | Return ads list         |
+| `400`           | `error`   | "Id not provided"       |
+| `404`           | `error`   | "Ad not found"          |
+| `500`           | `error`   | Any other error message |
 
 ```typescript
 interface Company {
-    id: number // company id
-    name: string
-    email: string
+  id: number; // company id
+  name: string;
+  email: string;
 }
 
 interface Ad {
-    id: number // ad id
-    name: string
-    ad_url: string // Bucket url to display ad image
-    start_date: string //timestamp of start date to publish ad
-    end_date: string //timestamp of end date to publish ad
-    description: string
-    company: Company
-    published: boolean
+  id: number; // ad id
+  name: string;
+  ad_url: string; // Bucket url to display ad image
+  start_date: string; //timestamp of start date to publish ad
+  end_date: string; //timestamp of end date to publish ad
+  description: string;
+  company: Company;
+  published: boolean;
 }
 
 // Response interface
 interface Get_Ads_Response {
-    ads: Ad[]
+  ads: Ad[];
 }
 ```
 
@@ -195,17 +196,17 @@ Verifies if an ad is already paid and is inside an active start/end date to chan
   POST /ads/publish/${id}
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id` | `int` | **Required**. ad id |
+| Parameter | Type  | Description         |
+| :-------- | :---- | :------------------ |
+| `id`      | `int` | **Required**. ad id |
 
-| Response Status | Type     | Description          |
-| :-------- | :------- | :------------------------- |
-| `201` | `success` | "Ad published"|
-| `400` | `error` | "Ad not paid or not in active dates."|
-| `400` | `error` | "Id not provided" |
-| `404` | `error` | "Ad not found" |
-| `500` | `error` | Any other error message|
+| Response Status | Type      | Description                           |
+| :-------------- | :-------- | :------------------------------------ |
+| `201`           | `success` | "Ad published"                        |
+| `400`           | `error`   | "Ad not paid or not in active dates." |
+| `400`           | `error`   | "Id not provided"                     |
+| `404`           | `error`   | "Ad not found"                        |
+| `500`           | `error`   | Any other error message               |
 
 #### Time Triggered Publish Ad Routine (TTPAR)
 
@@ -219,38 +220,38 @@ Returns all the active ads for a given user.
   GET /ads/active/${id}
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id` | `int` | **Required**. user id |
+| Parameter | Type  | Description           |
+| :-------- | :---- | :-------------------- |
+| `id`      | `int` | **Required**. user id |
 
-| Response Status | Type     | Description          |
-| :-------- | :------- | :------------------------- |
-| `200` | `success` | Returns all the active ads|
-| `400` | `error` | "Id not provided" |
-| `404` | `error` | "User not found" |
-| `500` | `error` | Any other error message|
+| Response Status | Type      | Description                |
+| :-------------- | :-------- | :------------------------- |
+| `200`           | `success` | Returns all the active ads |
+| `400`           | `error`   | "Id not provided"          |
+| `404`           | `error`   | "User not found"           |
+| `500`           | `error`   | Any other error message    |
 
 ```typescript
 interface Company {
-    id: number // company id
-    name: string
-    email: string
+  id: number; // company id
+  name: string;
+  email: string;
 }
 
 interface Ad {
-    id: number // ad id
-    name: string
-    ad_url: string // Bucket url to display ad image
-    start_date: string //timestamp of start date to publish ad
-    end_date: string //timestamp of end date to publish ad
-    description: string
-    company: Company
-    published: boolean
+  id: number; // ad id
+  name: string;
+  ad_url: string; // Bucket url to display ad image
+  start_date: string; //timestamp of start date to publish ad
+  end_date: string; //timestamp of end date to publish ad
+  description: string;
+  company: Company;
+  published: boolean;
 }
 
 // Response interface
 interface Get_Ads_Response {
-    ads: Ad[]
+  ads: Ad[];
 }
 ```
 
@@ -265,90 +266,89 @@ Generate a user likes analysis given a movie, book or song. Organized by user ge
 ```
 
 ```typescript
-interface Like_Relation{
-  id: number
-  user_id: number
-  type: 'MOV' | 'BOO' | 'SON'
-  rating?: float // given by the user searched
-  like_type: 'LK' | 'DLK' | 'BLK' // Liked | Disliked | Blank (no info yet)
-  wishlist: boolean // Inside user wishlist? Yes or No
+interface Like_Relation {
+  id: number;
+  user_id: number;
+  type: "MOV" | "BOO" | "SON";
+  rating?: float; // given by the user searched
+  like_type: "LK" | "DLK" | "BLK"; // Liked | Disliked | Blank (no info yet)
+  wishlist: boolean; // Inside user wishlist? Yes or No
 }
 
-interface Country{
-  id: number
-  name: string // English name
-  code_2: string //ISO 3166-1 alpha-2
-  code_3: string //ISO 3166-1 alpha-3
+interface Country {
+  id: number;
+  name: string; // English name
+  code_2: string; //ISO 3166-1 alpha-2
+  code_3: string; //ISO 3166-1 alpha-3
 }
 
-interface Get_User{
-  id: number // User id
-  firstname: string
-  lastname: string // User last name
-  avatar_url?: string // Url of avatar image
-  birthdate?: string // String with the timestamp
-  gender?: 'M' | 'F' | 'O' | 'P' // User gender coded
-  country?: Country // Country information
-  created_time: string // String with the timestamp
-  email: string
-  verified: boolean
-  setup: boolean
+interface Get_User {
+  id: number; // User id
+  firstname: string;
+  lastname: string; // User last name
+  avatar_url?: string; // Url of avatar image
+  birthdate?: string; // String with the timestamp
+  gender?: "M" | "F" | "O" | "P"; // User gender coded
+  country?: Country; // Country information
+  created_time: string; // String with the timestamp
+  email: string;
+  verified: boolean;
+  setup: boolean;
 }
 
 // Body interface
-interface New_Analysis{
-  likes: Like_Relation[] // All likes related with the media id
-  users: Get_User[] // All the users
-  countries: Country[] // All the countries
+interface New_Analysis {
+  likes: Like_Relation[]; // All likes related with the media id
+  users: Get_User[]; // All the users
+  countries: Country[]; // All the countries
 }
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id` | `int` | **Required**. media id |
-| `type` | `enum('MOV', 'BOO', 'SON')` | **Required**. media type |
+| Parameter | Type                        | Description              |
+| :-------- | :-------------------------- | :----------------------- |
+| `id`      | `int`                       | **Required**. media id   |
+| `type`    | `enum('MOV', 'BOO', 'SON')` | **Required**. media type |
 
-| Response Status | Type     | Description          |
-| :-------- | :------- | :------------------------- |
-| `200` | `success` | Returns a complete analysis|
-| `500` | `error` | Any other error message|
+| Response Status | Type      | Description                 |
+| :-------------- | :-------- | :-------------------------- |
+| `200`           | `success` | Returns a complete analysis |
+| `500`           | `error`   | Any other error message     |
 
 ```typescript
-
 interface Count_Likes {
-    lk_total: number // Total of users with type "Like"
-    dlk_total: number // Total of users with type "dislike"
-    blk_total: number // Total of users with type "blank"
-    avr_rating: number // Average rating of likes
+  lk_total: number; // Total of users with type "Like"
+  dlk_total: number; // Total of users with type "dislike"
+  blk_total: number; // Total of users with type "blank"
+  avr_rating: number; // Average rating of likes
 }
 
 interface Gender_Analysis {
-    f: Count_Likes // Totals filtered by "female" gender
-    m: Count_Likes // Totals filtered by "male" gender
-    o: Count_Likes // Totals filtered by "other" gender
-    p: Count_Likes // Totals filtered by "prefer not to disclose" gender
+  f: Count_Likes; // Totals filtered by "female" gender
+  m: Count_Likes; // Totals filtered by "male" gender
+  o: Count_Likes; // Totals filtered by "other" gender
+  p: Count_Likes; // Totals filtered by "prefer not to disclose" gender
 }
 
 interface Nationality_Analysis {
-    country_name: string
-    code_2: string //ISO 3166-1 alpha-2
-    code_3: string //ISO 3166-1 alpha-3
-    like_info: Count_Likes
+  country_name: string;
+  code_2: string; //ISO 3166-1 alpha-2
+  code_3: string; //ISO 3166-1 alpha-3
+  like_info: Count_Likes;
 }
 
 interface Age_Range {
-    lower_age: number
-    upper_age: number
-    total: number // Total users inside the range
-    like_info: Count_Likes
+  lower_age: number;
+  upper_age: number;
+  total: number; // Total users inside the range
+  like_info: Count_Likes;
 }
 
 // Response interface
 interface Analysis {
-    id: number // media id
-    gender: Gender_Analysis
-    nationality: Record<number, Nationality_Analysis>
-    age: Record<string, Age_Range> // Example: {"0 - 5": {}, "6-11": {}, ...}
+  id: number; // media id
+  gender: Gender_Analysis;
+  nationality: Record<number, Nationality_Analysis>;
+  age: Record<string, Age_Range>; // Example: {"0 - 5": {}, "6-11": {}, ...}
 }
 ```
 
@@ -364,22 +364,22 @@ Create new company. Returns company id generated.
 
 ```typescript
 // Body interface
-interface Create_company{
-  name: string
-  email: string
+interface Create_company {
+  name: string;
+  email: string;
 }
 ```
 
-| Response Status | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `201` | `success` | Returns company id|
-| `400` | `error` | "Guard failed" |
-| `500` | `error` | Any other error message|
+| Response Status | Type      | Description             |
+| :-------------- | :-------- | :---------------------- |
+| `201`           | `success` | Returns company id      |
+| `400`           | `error`   | "Guard failed"          |
+| `500`           | `error`   | Any other error message |
 
 ```typescript
 // Response interface
-interface Create_company_Response{
-  id: number // company id
+interface Create_company_Response {
+  id: number; // company id
 }
 ```
 
@@ -393,23 +393,23 @@ Update company.
 
 ```typescript
 // Body interface
-interface Update_company{
-  name?: string
-  email?: string
+interface Update_company {
+  name?: string;
+  email?: string;
 }
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id` | `int` | **Required**. company id |
+| Parameter | Type  | Description              |
+| :-------- | :---- | :----------------------- |
+| `id`      | `int` | **Required**. company id |
 
-| Response Status | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `201` | `success` | "Company updated"|
-| `400` | `error` | "Guard failed" |
-| `400` | `error` | "Id not provided" |
-| `404` | `error` | "Company not found" |
-| `500` | `error` | Any other error message|
+| Response Status | Type      | Description             |
+| :-------------- | :-------- | :---------------------- |
+| `201`           | `success` | "Company updated"       |
+| `400`           | `error`   | "Guard failed"          |
+| `400`           | `error`   | "Id not provided"       |
+| `404`           | `error`   | "Company not found"     |
+| `500`           | `error`   | Any other error message |
 
 ### Payment
 
@@ -423,22 +423,22 @@ Create a new bill related with an specific ad. It's created with the status `CRE
 
 ```typescript
 // Body interface
-interface Create_Bill{
-  id_ad: int
-  amount: int
+interface Create_Bill {
+  id_ad: int;
+  amount: int;
 }
 ```
 
-| Response Status | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `201` | `success` | Returns payment id|
-| `400` | `error` | "Guard failed" |
-| `500` | `error` | Any other error message|
+| Response Status | Type      | Description             |
+| :-------------- | :-------- | :---------------------- |
+| `201`           | `success` | Returns payment id      |
+| `400`           | `error`   | "Guard failed"          |
+| `500`           | `error`   | Any other error message |
 
 ```typescript
 // Response interface
-interface Create_Bill_Response{
-  id: number // payment id
+interface Create_Bill_Response {
+  id: number; // payment id
 }
 ```
 
@@ -450,16 +450,84 @@ Cancel the payment process related with an specific ad. It's change the status t
   PUT /payment/cancel/${id}
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id` | `int` | **Required**. payment id |
+| Parameter | Type  | Description              |
+| :-------- | :---- | :----------------------- |
+| `id`      | `int` | **Required**. payment id |
 
-| Response Status | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `201` | `success` | "Payment canceled"|
-| `400` | `error` | "Id not provided" |
-| `404` | `error` | "Payment not found" |
-| `500` | `error` | Any other error message|
+| Response Status | Type      | Description             |
+| :-------------- | :-------- | :---------------------- |
+| `201`           | `success` | "Payment canceled"      |
+| `400`           | `error`   | "Id not provided"       |
+| `404`           | `error`   | "Payment not found"     |
+| `500`           | `error`   | Any other error message |
+
+#### Get payment
+
+Get payment.
+
+```http
+  GET /payments/${id}
+```
+
+| Parameter | Type  | Description              |
+| :-------- | :---- | :----------------------- |
+| `id`      | `int` | **Required**. payment id |
+
+| Response Status | Type      | Description                         |
+| :-------------- | :-------- | :---------------------------------- |
+| `200`           | `success` | Return complete payment information |
+| `400`           | `error`   | "Id not provided"                   |
+| `404`           | `error`   | "Payment not found"                 |
+| `500`           | `error`   | Any other error message             |
+
+```typescript
+interface Company {
+  id: number; // company id
+  name: string;
+  email: string;
+}
+
+// Response interface
+interface Bill {
+  id: number;
+  id_ad: number;
+  status: "CREATED" | "PAID" | "CANCELED";
+  amount: number;
+  createdAt: string; // Timestamp string
+}
+```
+
+#### Get Payments
+
+Get Payments by company, by ad id or by payment state.
+
+```http
+  GET /payment
+```
+
+| Query Parameter | Type                                  | Description    |
+| :-------------- | :------------------------------------ | :------------- |
+| id_company      | `int`                                 | company id     |
+| id_ad           | `int`                                 | ad id          |
+| status          | `enum('CREATED', 'PAID', 'CANCELED')` | payment status |
+
+```typescript
+// Body interface
+interface Bill {
+  id: number;
+  id_ad: number;
+  status: "CREATED" | "PAID" | "CANCELED";
+  amount: number;
+  createdAt: string; // Timestamp string
+}
+```
+
+| Response Status | Type      | Description             |
+| :-------------- | :-------- | :---------------------- |
+| `200`           | `success` | Return payments list    |
+| `400`           | `error`   | "Id not provided"       |
+| `404`           | `error`   | "Payment not found"     |
+| `500`           | `error`   | Any other error message |
 
 #### Pay Bill
 
@@ -469,28 +537,28 @@ Pay the bill related with an specific ad. The payment will be processed with Mer
   PUT /payment/pay/${id}
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id` | `int` | **Required**. payment id |
+| Parameter | Type  | Description              |
+| :-------- | :---- | :----------------------- |
+| `id`      | `int` | **Required**. payment id |
 
-| Response Status | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `201` | `success` | "Bill Paid"|
-| `400` | `error` | "Payment wrong. Bill canceled." |
-| `400` | `error` | "Bill is canceled and cannot be processed." |
-| `400` | `error` | "Id not provided" |
-| `404` | `error` | "Bill not found" |
-| `500` | `error` | Any other error message|
+| Response Status | Type      | Description                                 |
+| :-------------- | :-------- | :------------------------------------------ |
+| `201`           | `success` | "Bill Paid"                                 |
+| `400`           | `error`   | "Payment wrong. Bill canceled."             |
+| `400`           | `error`   | "Bill is canceled and cannot be processed." |
+| `400`           | `error`   | "Id not provided"                           |
+| `404`           | `error`   | "Bill not found"                            |
+| `500`           | `error`   | Any other error message                     |
 
 #### Important!
 
- If a bill is canceled and wants to try to pay ad again, then a new bill has to be generated.
+If a bill is canceled and wants to try to pay ad again, then a new bill has to be generated.
 
 ---
-<br />
-<br />
-<br />
 
+<br />
+<br />
+<br />
 
 ## Deployment
 
