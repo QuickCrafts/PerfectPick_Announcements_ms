@@ -26,6 +26,7 @@ class CompaniesFacade {
   public async createCompany (req: Request, res: Response): Promise<void> {
     try {
       const { name, email } = req.body
+      console.log(name, email)
       try {
         const [rows] = await pool.query('INSERT INTO companies (name_company, email_company) VALUES (?, ?)', [name, email])
         const response = {

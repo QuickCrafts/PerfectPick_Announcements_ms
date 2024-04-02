@@ -13,7 +13,6 @@ class PaymentsFacade {
         const { id_company, id_ad, status } = req.body
         if (id_company !== undefined && typeof id_company === 'number') {
           const paymentsByCompany = []
-          console.log('id_company')
           const [rows] = await pool.query('SELECT * FROM payments')
           for (const row of rows as RowDataPacket[]) {
             const [rows2] = await pool.query('SELECT * FROM ads WHERE id_ad = ?', [row.id_ad])
@@ -51,10 +50,29 @@ class PaymentsFacade {
   }
 
   public async getById (req: Request, res: Response): Promise<void> {
-    const idPayment = req.params.id
-    const [rows] = await pool.query('SELECT * FROM payments where id_payment = ?', [idPayment])
-    console.log(rows)
-    res.json(rows)
+    try {
+      const idPayment = req.params.id
+      if (idPayment === undefined || idPayment === null || isNaN(Number(idPayment))) {
+        res.status(400).json({
+          message: 'Id not provided'
+        })
+        return
+      }
+      const [rows] = await pool.query('SELECT * FROM payments where id_payment = ?', [idPayment])
+      if ((rows as IAds[]).length === 0) {
+        res.status(404).json({
+          message: 'Payment not found'
+        })
+        return
+      }
+      let a = rows as RowDataPacket
+      a = a[0]
+      res.json(a)
+    } catch (e) {
+      res.status(500).json({
+        message: 'Error'
+      })
+    }
   }
 
   public async createPayment (req: Request, res: Response): Promise<void> {
