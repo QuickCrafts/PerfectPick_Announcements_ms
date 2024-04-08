@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  perfectpick_announcements_ms:
+    build: ./PerfectPick_Announcements_ms
+    container_name: perfectpick_announcements_ms
+    ports:
+      - "4000:4000" 
+    environment:
+      PORT: 4000
+      DBPORT: 3306
+      MySQL_USER: db_ads
+      MySQL_PASSWORD: db_ads
+      HOST: PerfectPick_Announcements_db
