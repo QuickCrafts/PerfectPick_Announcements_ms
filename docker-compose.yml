@@ -4,10 +4,16 @@ services:
     build: ./PerfectPick_Announcements_ms
     container_name: perfectpick_announcements_ms
     ports:
-      - "4000:4000" 
+      - "4000:4000"
+    networks:
+      - perfectpicknetwork 
     environment:
       PORT: 4000
       DBPORT: 3306
       MySQL_USER: db_ads
       MySQL_PASSWORD: db_ads
       HOST: PerfectPick_Announcements_db
+
+networks:
+  perfectpicknetwork:
+    external: true
